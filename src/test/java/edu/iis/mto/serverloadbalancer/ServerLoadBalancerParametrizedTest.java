@@ -2,6 +2,8 @@ package edu.iis.mto.serverloadbalancer;
 
 import static edu.iis.mto.serverloadbalancer.CurrentLoadPercentageMatcher.hasLoadPercentageOf;
 import static edu.iis.mto.serverloadbalancer.ServerBuilder.server;
+import static edu.iis.mto.serverloadbalancer.ServerParamsBuilder.serverParams;
+import static edu.iis.mto.serverloadbalancer.ServerVmPairBuilder.serverVmPair;
 import static edu.iis.mto.serverloadbalancer.VmBuilder.vm;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,71 +17,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerTestBase {
-	
-	private static class ServerParams {
-		public int capacity;
-		public double loadAfterBalance;
-		public ServerParams(int capacity, double loadAfterBalance) {
-			super();
-			this.capacity = capacity;
-			this.loadAfterBalance = loadAfterBalance;
-		}
-	}
-	
-	private static class ServerParamsBuilder implements Builder<ServerParams> {
-
-		private int capacity;
-		private double loadAfterBalance;
-		
-		public ServerParams build() {
-			return new ServerParams(capacity, loadAfterBalance);
-		}
-
-		public ServerParamsBuilder withCapacity(int capacity) {
-			this.capacity = capacity;
-			return this;
-		}
-
-		public ServerParamsBuilder withLoadAfterBalance(double loadAfterBalance) {
-			this.loadAfterBalance = loadAfterBalance;
-			return this;
-		}
-		
-	}
-	
-	private static ServerParamsBuilder serverParams() {
-		return new ServerParamsBuilder();
-	}
-	
-	private static class ServerVmPair {
-		public int serverIdx;
-		public int vmIdx;
-		public ServerVmPair(int serverIdx, int vmIdx) {
-			super();
-			this.serverIdx = serverIdx;
-			this.vmIdx = vmIdx;
-		}
-	}
-	
-	private static class ServerVmPairBuilder implements Builder<ServerVmPair> {
-		private int serverIdx;
-		private int vmIdx;
-		public ServerVmPair build() {
-			return new ServerVmPair(serverIdx, vmIdx);
-		}
-		public ServerVmPairBuilder withServerIdx(int serverIdx) {
-			this.serverIdx = serverIdx;
-			return this;
-		}
-		public ServerVmPairBuilder withVmIdx(int vmIdx) {
-			this.vmIdx = vmIdx;
-			return this;
-		}
-	}
-	
-	private static ServerVmPairBuilder serverVmPair() {
-		return new ServerVmPairBuilder();
-	}
 	
 	private ServerParams[] serverParams;
 	private int[] vmSizes;
@@ -111,22 +48,22 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerTestBa
 		return Arrays.asList(new Object[][] {
 			{
 				serverParamsList(a(serverParams().withCapacity(4).withLoadAfterBalance(75.0)), a(serverParams().withCapacity(6).withLoadAfterBalance(66.66))),
-				vmsOfSizes( 1, 4, 2 ),
+				vmsOfSizes(1, 4, 2),
 				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(0)), a(serverVmPair().withServerIdx(1).withVmIdx(1)), a(serverVmPair().withServerIdx(0).withVmIdx(2)))
 			},
 			{
 				serverParamsList(a(serverParams().withCapacity(6).withLoadAfterBalance(50.0)), a(serverParams().withCapacity(4).withLoadAfterBalance(100.0))),
-				vmsOfSizes( 1, 4, 2 ),
+				vmsOfSizes(1, 4, 2),
 				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(0)), a(serverVmPair().withServerIdx(1).withVmIdx(1)), a(serverVmPair().withServerIdx(0).withVmIdx(2)))
 			},
 			{
 				serverParamsList(a(serverParams().withCapacity(2).withLoadAfterBalance(100.0)), a(serverParams().withCapacity(4).withLoadAfterBalance(100.0))),
-				vmsOfSizes( 4, 2 ),
+				vmsOfSizes(4, 2),
 				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(1)), a(serverVmPair().withServerIdx(1).withVmIdx(0)))
 			},
 			{
 				serverParamsList(a(serverParams().withCapacity(2).withLoadAfterBalance(100.0)), a(serverParams().withCapacity(4).withLoadAfterBalance(100.0)), a(serverParams().withCapacity(6).withLoadAfterBalance(66.666))),
-				vmsOfSizes( 4, 4, 1, 1 ),
+				vmsOfSizes(4, 4, 1, 1),
 				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(3)), a(serverVmPair().withServerIdx(1).withVmIdx(0)), a(serverVmPair().withServerIdx(2).withVmIdx(1)))
 			}
 		});
