@@ -30,7 +30,12 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerBaseTe
 	@Parameters
 	public static Collection<Object[]> parameters() {
 		return Arrays.asList(new Object[][] {
-			{ 1, 1, 100.0 }
+			{ 1, 1, 100.0 },
+			{ 2, 1, 50.0 },
+			{ 2, 2, 100.0 },
+			{ 3, 1, 100.0/3.0 },
+			{ 3, 2, 200.0/3.0 },
+			{ 3, 3, 100.0 }
 		});
 	}
 	
