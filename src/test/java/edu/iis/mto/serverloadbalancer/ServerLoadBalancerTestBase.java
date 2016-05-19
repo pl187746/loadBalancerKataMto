@@ -6,23 +6,23 @@ public class ServerLoadBalancerTestBase {
 		super();
 	}
 
-	protected void balance(Server[] servers, Vm[] vms) {
+	protected static void balance(Server[] servers, Vm[] vms) {
 		new ServerLoadBalancer().balance(servers, vms);
 	}
 
-	protected Vm[] aListOfVmsWith(Vm... vms) {
+	protected static Vm[] aListOfVmsWith(Vm... vms) {
 		return vms;
 	}
 
-	protected Vm[] anEmptyListOfVms() {
+	protected static Vm[] anEmptyListOfVms() {
 		return new Vm[0];
 	}
 
-	protected Server[] aListOfServersWith(Server... servers) {
+	protected static Server[] aListOfServersWith(Server... servers) {
 		return servers;
 	}
 
-	protected <T> T a(Builder<T> builder) {
+	protected static <T> T a(Builder<T> builder) {
 		return builder.build();
 	}
 

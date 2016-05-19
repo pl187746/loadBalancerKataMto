@@ -26,6 +26,31 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerTestBa
 		}
 	}
 	
+	private static class ServerParamsBuilder implements Builder<ServerParams> {
+
+		private int capacity;
+		private double loadAfterBalance;
+		
+		public ServerParams build() {
+			return new ServerParams(capacity, loadAfterBalance);
+		}
+
+		public ServerParamsBuilder withCapacity(int capacity) {
+			this.capacity = capacity;
+			return this;
+		}
+
+		public ServerParamsBuilder withLoadAfterBalance(double loadAfterBalance) {
+			this.loadAfterBalance = loadAfterBalance;
+			return this;
+		}
+		
+	}
+	
+	private static ServerParamsBuilder serverParams() {
+		return new ServerParamsBuilder();
+	}
+	
 	private static class ServerVmPair {
 		public int serverIdx;
 		public int vmIdx;
@@ -34,6 +59,26 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerTestBa
 			this.serverIdx = serverIdx;
 			this.vmIdx = vmIdx;
 		}
+	}
+	
+	private static class ServerVmPairBuilder implements Builder<ServerVmPair> {
+		private int serverIdx;
+		private int vmIdx;
+		public ServerVmPair build() {
+			return new ServerVmPair(serverIdx, vmIdx);
+		}
+		public ServerVmPairBuilder withServerIdx(int serverIdx) {
+			this.serverIdx = serverIdx;
+			return this;
+		}
+		public ServerVmPairBuilder withVmIdx(int vmIdx) {
+			this.vmIdx = vmIdx;
+			return this;
+		}
+	}
+	
+	private static ServerVmPairBuilder serverVmPair() {
+		return new ServerVmPairBuilder();
 	}
 	
 	private ServerParams[] serverParams;
@@ -48,29 +93,41 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerTestBa
 		this.vmSizes = vmSizes;
 		this.serverVmPairsAfterBalance = serverVmPairsAfterBalance;
 	}
+	
+	private static int[] vmsOfSizes(int... sizes) {
+		return sizes;
+	}
+	
+	private static ServerParams[] serverParamsList(ServerParams... serverParams) {
+		return serverParams;
+	}
+	
+	private static ServerVmPair[] serverVmPairList(ServerVmPair... svp) {
+		return svp;
+	}
 
 	@Parameters
 	public static Collection<Object[]> parameters() {
 		return Arrays.asList(new Object[][] {
 			{
-				new ServerParams[] { new ServerParams(4, 75.0), new ServerParams(6, 66.66) },
-				new int[]{ 1, 4, 2 },
-				new ServerVmPair[]{ new ServerVmPair( 0, 0 ), new ServerVmPair( 1, 1 ), new ServerVmPair( 0, 2 ) }
+				serverParamsList(a(serverParams().withCapacity(4).withLoadAfterBalance(75.0)), a(serverParams().withCapacity(6).withLoadAfterBalance(66.66))),
+				vmsOfSizes( 1, 4, 2 ),
+				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(0)), a(serverVmPair().withServerIdx(1).withVmIdx(1)), a(serverVmPair().withServerIdx(0).withVmIdx(2)))
 			},
 			{
-				new ServerParams[] { new ServerParams(6, 50.0), new ServerParams(4, 100.0) },
-				new int[]{ 1, 4, 2 },
-				new ServerVmPair[]{ new ServerVmPair( 0, 0 ), new ServerVmPair( 1, 1 ), new ServerVmPair( 0, 2) }
+				serverParamsList(a(serverParams().withCapacity(6).withLoadAfterBalance(50.0)), a(serverParams().withCapacity(4).withLoadAfterBalance(100.0))),
+				vmsOfSizes( 1, 4, 2 ),
+				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(0)), a(serverVmPair().withServerIdx(1).withVmIdx(1)), a(serverVmPair().withServerIdx(0).withVmIdx(2)))
 			},
 			{
-				new ServerParams[] { new ServerParams(2, 100.0), new ServerParams(4,100.0) },
-				new int[]{ 4, 2 },
-				new ServerVmPair[]{ new ServerVmPair( 0, 1 ), new ServerVmPair( 1, 0 ) }
+				serverParamsList(a(serverParams().withCapacity(2).withLoadAfterBalance(100.0)), a(serverParams().withCapacity(4).withLoadAfterBalance(100.0))),
+				vmsOfSizes( 4, 2 ),
+				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(1)), a(serverVmPair().withServerIdx(1).withVmIdx(0)))
 			},
 			{
-				new ServerParams[] { new ServerParams(2, 100.0), new ServerParams(4, 100.0), new ServerParams(6, 66.666) },
-				new int[]{ 4, 4, 1, 1 },
-				new ServerVmPair[]{ new ServerVmPair( 0, 2 ), new ServerVmPair( 0, 3 ), new ServerVmPair( 1, 0 ), new ServerVmPair(2, 1) }
+				serverParamsList(a(serverParams().withCapacity(2).withLoadAfterBalance(100.0)), a(serverParams().withCapacity(4).withLoadAfterBalance(100.0)), a(serverParams().withCapacity(6).withLoadAfterBalance(66.666))),
+				vmsOfSizes( 4, 4, 1, 1 ),
+				serverVmPairList(a(serverVmPair().withServerIdx(0).withVmIdx(3)), a(serverVmPair().withServerIdx(1).withVmIdx(0)), a(serverVmPair().withServerIdx(2).withVmIdx(1)))
 			}
 		});
 	}
