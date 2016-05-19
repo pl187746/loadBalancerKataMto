@@ -38,6 +38,24 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerTestBa
 				new double[]{ 75.0, 66.66 },
 				new int[]{ 1, 4, 2 },
 				new int[][]{ { 0, 0 }, { 1, 1 }, { 0, 2 } }
+			},
+			{
+				new int[]{ 6, 4 },
+				new double[]{ 50.0, 100.0 },
+				new int[]{ 1, 4, 2 },
+				new int[][]{ { 0, 0 }, { 1, 1 }, { 0, 2 } }
+			},
+			{
+				new int[]{ 2, 4 },
+				new double[]{ 100.0, 100.0 },
+				new int[]{ 4, 2 },
+				new int[][]{ { 0, 1 }, { 1, 0 } }
+			},
+			{
+				new int[]{ 2, 4, 6 },
+				new double[]{ 100.0, 100.0, 66.666 },
+				new int[]{ 4, 4, 1, 1 },
+				new int[][]{ { 0, 2 }, { 0, 3 }, { 1, 0 }, { 2, 1 } }
 			}
 		});
 	}
