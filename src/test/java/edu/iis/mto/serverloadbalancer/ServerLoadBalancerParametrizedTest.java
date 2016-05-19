@@ -40,7 +40,7 @@ public class ServerLoadBalancerParametrizedTest extends ServerLoadBalancerBaseTe
 	}
 	
 	@Test
-	public void balancingOneServerWithOneSlotCapacity_andOneSlotVm_fillsTheServerWithTheVm() {
+	public void balancingOneServerWithNSlotsCapacity_andMSlotsVm_fillsTheServerWith100NDividedByMPercent() {
 		Server theServer = a(server().withCapacity(serverCapacity));
 		Vm theVm = a(vm().ofSize(vmSize));
 		balance(aListOfServersWith(theServer), aListOfVmsWith(theVm));
