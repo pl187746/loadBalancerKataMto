@@ -21,4 +21,8 @@ public class Server {
 		this.currentLoadPercentage = currentLoadPercentage;	
 	}
 
+	public int getCapacity() {
+		return capacity;
+	}
+
 }
