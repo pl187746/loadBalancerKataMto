@@ -31,4 +31,8 @@ public class CurrentLoadPercentageMatcher extends TypeSafeMatcher<Server> {
 		return b == a || Math.abs(b - a) < EPSILON;
 	}
 
+	public static CurrentLoadPercentageMatcher hasCurrentLoadOf(double expectedLoadPercentage) {
+		return new CurrentLoadPercentageMatcher(expectedLoadPercentage);
+	}
+
 }
