@@ -31,4 +31,8 @@ public class Server {
 		return capacity;
 	}
 
+	public int getVmCount() {
+		return vmList.size();
+	}
+
 }
