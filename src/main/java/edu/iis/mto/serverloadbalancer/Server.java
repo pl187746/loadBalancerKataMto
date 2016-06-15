@@ -13,4 +13,8 @@ public class Server {
 		return currentLoadPercenatge;
 	}
 
+	public void addVm(Vm vm) {
+		currentLoadPercenatge += 100.0 * vm.getSize() / capacity;		
+	}
+
 }
