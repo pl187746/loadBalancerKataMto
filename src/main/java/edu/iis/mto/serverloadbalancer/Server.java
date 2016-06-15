@@ -9,7 +9,7 @@ public class Server {
 	private int capacity;
 	private double currentLoadPercentage;
 	private List<Vm> vmList = new ArrayList<Vm>();
-	
+
 	public Server(int capacity) {
 		this.capacity = capacity;
 	}
@@ -20,7 +20,7 @@ public class Server {
 	
 	public void addVm(Vm vm) {
 		vmList.add(vm);
-		currentLoadPercentage = MAXIMUM_LOAD * vm.getSize() / capacity;
+		currentLoadPercentage += MAXIMUM_LOAD * vm.getSize() / capacity;
 	}
 
 	public boolean contains(Vm vm) {
