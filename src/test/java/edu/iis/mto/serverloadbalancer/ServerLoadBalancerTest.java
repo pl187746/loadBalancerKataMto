@@ -81,6 +81,20 @@ public class ServerLoadBalancerTest {
 		
 		assertThat("server should not contain the vm", !theServer.contains(theVm));
 	}
+	
+	@Test
+	public void balance_serversAndVms() {
+		Server theFirstServer = a(server().withCapacity(2));
+		Server theSecondServer = a(server().withCapacity(6));
+		Vm theFirstVm = a(vm().ofSize(4));
+		Vm theSecondVm = a(vm().ofSize(2));
+		
+		balancing(aServerListWith(theFirstServer, theSecondServer), aVmListWith(theFirstVm, theSecondVm));
+		
+		assertThat("the first server should contain the second vm", theFirstServer.contains(theSecondVm));
+		assertThat("the second server should contain the find vm", theSecondServer.contains(theFirstVm));
+
+	}
 
 	private static Vm[] aVmListWith(Vm... vms) {
 		return vms;
