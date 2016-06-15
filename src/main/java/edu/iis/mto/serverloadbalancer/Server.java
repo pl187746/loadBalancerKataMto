@@ -3,11 +3,9 @@ package edu.iis.mto.serverloadbalancer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.Matcher;
-
 public class Server {
 
-	private static final double MAXIMUM_LOAD = 100.0;
+	public static final double MAXIMUM_LOAD = 100.0;
 	private int capacity;
 	private double currentLoadPercenatge;
 	private List<Vm> vms = new ArrayList<Vm>();
