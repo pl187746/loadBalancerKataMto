@@ -3,6 +3,8 @@ package edu.iis.mto.serverloadbalancer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.Matcher;
+
 public class Server {
 
 	private static final double MAXIMUM_LOAD = 100.0;
@@ -25,6 +27,10 @@ public class Server {
 
 	public int getVmCount() {
 		return vms.size();
+	}
+
+	public boolean contains(Vm vm) {
+		return vms.contains(vm);
 	}
 
 }
