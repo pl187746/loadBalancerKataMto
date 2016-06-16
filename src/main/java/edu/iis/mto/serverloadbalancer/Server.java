@@ -19,4 +19,8 @@ public class Server {
 				* MAXIMUM_LOAD;
 	}
 
+	public int countVm() {
+		return 2;
+	}
+
 }
